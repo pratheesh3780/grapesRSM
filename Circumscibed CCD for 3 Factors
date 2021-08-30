@@ -1,0 +1,96 @@
+gen_level_3 <- function(x1, y1, x2, y2, x3, y3) {
+  # x min
+  # y max
+  a <- (x1 + y1) / 2
+  b <- (y1 - x1) / 2
+  l11 <- (b * -1.682) + a 
+  l21 <- x1
+  l31 <- a 
+  l41 <- y1
+  l51 <- (b * 1.682) + a
+  levels1 <- as.vector(c(l11, l21, l31, l41, l51))
+  levels1 <- round(levels1, 3)
+  L1 <- levels1
+  
+  a <- (x2 + y2) / 2
+  b <- (y2 - x2) / 2
+  l12 <- (b * -1.682) + a 
+  l22 <- x2
+  l32 <- a 
+  l42 <- y2
+  l52 <- (b * 1.682) + a
+  levels2 <- as.vector(c(l12, l22, l32, l42, l52))
+  levels2 <- round(levels2, 3)
+  L2 <- levels2
+  
+  a <- (x3 + y3) / 2
+  b <- (y3 - x3) / 2
+  l13 <- (b * -1.682) + a 
+  l23 <- x3
+  l33 <- a 
+  l43 <- y3
+  l53 <- (b * 1.682) + a
+  levels3 <- as.vector(c(l13, l23, l33, l43, l53))
+  levels3 <- round(levels3, 3)
+  L3 <- levels3
+  
+  # design matrix
+  D <- matrix(c(
+    -1,	-1, -1,
+    1,	-1, -1,
+    -1,	1, -1,
+    1,	1, -1,
+    -1, -1, 1,
+    1, -1, 1,
+    -1, 1, 1,
+    1, 1, 1,
+    -1.682,	0, 0,
+    1.682,	0, 0,
+    0,	-1.682, 0,
+    0,	1.682, 0,
+    0,	0, -1.682,
+    0,	0, 1.682,
+    0,	0, 0,
+    0,	0, 0,
+    0,	0, 0,
+    0,  0, 0,
+    0,  0, 0,
+    0,  0, 0
+    
+  ), nrow = 20, ncol = 3, byrow = TRUE)
+  run <- as.data.frame(c(1:20))
+  obs <- as.data.frame(matrix(0, 20, 1))
+  
+  #function to round
+  round_to_high <-function(x){
+    if(x<=0){
+      y=floor(x)
+    }
+    else if (x>0){
+      y= ceiling(x)
+    }
+    y
+  }
+  
+  Factor_1 <- matrix(0, 20, 1)
+  for (i in 1:20) {
+    Factor_1[i, 1] <- c(L1[round_to_high(D[i, 1]) + 3])
+  }
+  
+  Factor_2 <- matrix(0, 20, 1)
+  for (i in 1:20) {
+    Factor_2[i, 1] <- c(L2[round_to_high(D[i, 2]) + 3])
+  }
+  
+  Factor_3 <- matrix(0, 20, 1)
+  for (i in 1:20) {
+    Factor_3[i, 1] <- c(L3[round_to_high(D[i, 3]) + 3])
+  }
+  
+  Final_des <- cbind(run, D, Factor_1, Factor_2, Factor_3, obs)
+  colnames(Final_des) <- c("runs", "X1","X2","X3","T1", "T2","T3","Observation")
+  Final_des
+}
+View(gen_level_3)
+
+
