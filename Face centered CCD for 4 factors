@@ -114,4 +114,28 @@ gen_level_4 <- function(x1, y1, x2, y2, x3, y3, x4, y4) {
   Final_des
 }
 View(gen_level_4)
+mydata <- gen_level_3(x1, y1, x2, y2, x3, y3, x4, y4)
 
+groupT1 <- mydata$T1
+groupT2 <- mydata$T2
+groupT3 <- mydata$T3
+groupT4 <- mydata$T4
+
+Combinedgroups <- data.frame(cbind(groupT1,groupT2,groupT3,groupT4))
+Stacking <- stack(Combinedgroups)
+Anovares <- aov(values ~ ind, data=Stacking)
+summary(Anovares)
+
+library(rsm)
+model2 <- rsm(Observation ~ SO(T1,T2,T3,T4), data=mydata)
+summary(model2)
+
+library(ggplot2)
+contour(Observation, ~ T1 + T2 + T3 + T4, at = summary(model2)$canonical$xs , col = c("blue","red","green"))
+
+library(plot3D)
+library(plotly)
+library(rgl)
+
+scatter3D(x=mydata$T1, y=mydata$T2, z=mydata$T3, bty="b2", pch=20, cex=2, tickttype="detailed", xlab="T1", ylab="T2", zlab="T3", phi=45)
+plot3d(x=mydata$T1, y=mydata$T2, z=mydata$T3, col=c("blue", "green", "yellow", "orange", "red"))
