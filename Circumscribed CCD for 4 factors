@@ -118,7 +118,7 @@ gen_level_4 <- function(x1, y1, x2, y2, x3, y3, x4, y4) {
   Final_des
 }
 View(gen_level_4)
-mydata <- gen_level_3(x1, y1, x2, y2, x3, y3, x4, y4)
+mydata <- gen_level_4(x1, y1, x2, y2, x3, y3, x4, y4)
 
 groupT1 <- mydata$T1
 groupT2 <- mydata$T2
