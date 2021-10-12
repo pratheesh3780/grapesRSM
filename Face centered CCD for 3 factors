@@ -103,10 +103,11 @@ summary(Anovares)
 
 library(rsm)
 model2 <- rsm(Observation ~ SO(T1,T2,T3), data=mydata)
+summary(model2)
 
 #CONTOUR PLOT
 library(ggplot2)
-contour(Observation, ~ T1 + T2 + T3, at = summary(yield)$canonical$xs , col = c("blue","red","green"))
+contour(Observation, ~ T1 + T2 + T3, at = summary(model2)$canonical$xs , col = c("blue","red","green"))
 
 #SURFACE PLOT, SCATTER PLOT
 library(plot3D)
